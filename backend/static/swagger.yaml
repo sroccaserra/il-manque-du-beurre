@@ -1,0 +1,24 @@
+swagger: "2.0"
+
+info:
+  version: 1.0.1
+  title: Il manque du beurre
+  description: Une api pour signaler qu'il manque un produit à la maison
+
+schemes:
+  - http
+host:
+basePath: /api
+
+paths:
+  /produits_manquants/{nom_de_produit}:
+    post:
+      summary: Signale un produit manquant
+      parameters:
+        - name: nom_de_produit
+          in: path
+          required: true
+          description: Nom du produit manquant à signaler
+      responses:
+        '201':
+          description: Le produit manquant a été signalé

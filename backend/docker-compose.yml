@@ -1,0 +1,10 @@
+version: '3'
+services:
+  backend:
+    image: il_manque_du_beurre_backend
+    command: flask run --host='0.0.0.0'
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    working_dir: /app
