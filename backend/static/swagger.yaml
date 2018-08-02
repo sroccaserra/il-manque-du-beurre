@@ -22,3 +22,7 @@ paths:
       responses:
         '201':
           description: Le produit manquant a été signalé
+        '200':
+          description: Le produit manquant avait déjà été signalé
+        '400':
+          description: Le produit manquant n'est pas connu

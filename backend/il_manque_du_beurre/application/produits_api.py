@@ -3,7 +3,7 @@ from http import HTTPStatus
 from il_manque_du_beurre.domaine.produit_manquant import ProduitManquant
 
 
-class ProduitAPI:
+class ProduitsAPI:
     def __init__(self, produit_manquant_service):
         self.produit_manquant_service = produit_manquant_service
 
