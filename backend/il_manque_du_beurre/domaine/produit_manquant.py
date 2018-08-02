@@ -4,7 +4,3 @@ class ProduitManquant:
 
     def __eq__(self, other):
         return self.nom == other.nom
-
-    @staticmethod
-    def de_nom(nom):
-        return ProduitManquant(nom)
