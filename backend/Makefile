@@ -79,8 +79,9 @@ test-all: lint up
 		--junitxml=junit.xml \
 		--cov-report $(COVERAGE_REPORT) \
 		--cov-report term-missing:skip-covered \
-		--cov=/app/sheldon_trends/domain \
-		--cov=/app/sheldon_trends/infrastructure \
+		--cov=/app/il_manque_du_beurre/application \
+		--cov=/app/il_manque_du_beurre/domaine \
+#		--cov=/app/il_manque_du_beurre/infrastructure \
 		$(UNIT_TEST_PATH) \
 		$(INTEGRATION_TEST_PATH) \
 		$(END_TO_END_TEST_PATH)
