@@ -11,6 +11,11 @@ produit_manquant_service = ProduitManquantService(produit_manquant_repository)
 produits_api = ProduitsAPI(produit_manquant_service)
 
 
+@api.route('/produits_manquants', methods=['GET'])
+def lister_produits_manquants():
+    return produits_api.liste_des_produits_manquants()
+
+
 @api.route('/produits_manquants/<nom_de_produit>', methods=['POST'])
-def produits(nom_de_produit):
+def signaler_un_produit_manquant(nom_de_produit):
     return produits_api.signaler_produit_manquant(nom_de_produit)

@@ -11,6 +11,13 @@ host:
 basePath: /api
 
 paths:
+  /produits_manquants:
+    get:
+      summary: Liste les produits manquants
+      responses:
+        '200':
+          description: La liste des produits
+
   /produits_manquants/{nom_de_produit}:
     post:
       summary: Signale un produit manquant
@@ -20,9 +27,7 @@ paths:
           required: true
           description: Nom du produit manquant à signaler
       responses:
-        '201':
-          description: Le produit manquant a été signalé
         '200':
-          description: Le produit manquant avait déjà été signalé
+          description: Ok, le produit manquant a été signalé
         '400':
-          description: Le produit manquant n'est pas connu
+          description: "Erreur : le produit demandé n'est pas connu"
