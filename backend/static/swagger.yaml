@@ -7,7 +7,7 @@ info:
 
 schemes:
   - http
-host:
+host: ""
 basePath: /api
 
 paths:
@@ -17,17 +17,39 @@ paths:
       responses:
         '200':
           description: La liste des produits
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    nom:
+                    type: string
+                    example: 'beurre'
 
   /produits_manquants/{nom_de_produit}:
+    parameters:
+      - name: nom_de_produit
+        in: path
+        required: true
+        description: Nom du produit manquant à signaler
+        schema:
+          type: string
     post:
       summary: Signale un produit manquant
-      parameters:
-        - name: nom_de_produit
-          in: path
-          required: true
-          description: Nom du produit manquant à signaler
       responses:
         '200':
           description: Ok, le produit manquant a été signalé
         '400':
           description: "Erreur : le produit demandé n'est pas connu"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  erreur:
+                    type: object
+                    properties:
+                      description:
+                      type: string

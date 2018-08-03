@@ -12,10 +12,11 @@ class TestIntegrationProduitAPI:
         produit_manquant_service = ProduitManquantService(produit_manquant_repository)
         produits_api = ProduitsAPI(produit_manquant_service)
 
-        body, status = produits_api.signaler_produit_manquant(nom_de_produit_manquant)
+        response = produits_api.signaler_produit_manquant(nom_de_produit_manquant)
 
-        assert body == ''
-        assert status == 200
+        assert response.data == b''
+        assert response.status == '200 OK'
+        assert response.mimetype == 'application/json'
 
     def test_lister_les_produits_manquants(self):
         nom_de_produit_manquant = 'beurre'
@@ -24,7 +25,12 @@ class TestIntegrationProduitAPI:
         produits_api = ProduitsAPI(produit_manquant_service)
         produits_api.signaler_produit_manquant(nom_de_produit_manquant)
 
-        body, status = produits_api.liste_des_produits_manquants()
+        response = produits_api.liste_des_produits_manquants()
 
-        assert body == json.dumps([dict(nom='beurre')])
-        assert status == 200
+        assert response.data == json_contenant([{'nom': 'beurre'}])
+        assert response.status == '200 OK'
+        assert response.mimetype == 'application/json'
+
+
+def json_contenant(structure):
+    return bytes(json.dumps(structure), encoding='utf-8')
