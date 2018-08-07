@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+set -eu -o pipefail
 
 # This line make the script fail if nc is not available
 type nc > /dev/null
