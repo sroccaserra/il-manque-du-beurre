@@ -24,6 +24,7 @@ build:
 
 .PHONY: up
 up:
+	docker-compose up -d database
 	docker-compose up -d backend
 	scripts/wait_for_services.sh localhost 5000
 
@@ -62,8 +63,8 @@ test-unit:
 		pytest -vvv --color=yes $(UNIT_TEST_OPTIONS) $(UNIT_TEST_PATH)
 
 .PHONY: test-integration
-test-integration:
-	docker run --rm -v $(shell pwd):/app il_manque_du_beurre_backend \
+test-integration: up
+	docker-compose exec -T backend \
 		pytest -vvv --color=yes $(INTEGRATION_TEST_OPTIONS) $(INTEGRATION_TEST_PATH)
 
 .PHONY: test-end-to-end
@@ -81,7 +82,7 @@ test-all: lint up
 		--cov-report term-missing:skip-covered \
 		--cov=/app/il_manque_du_beurre/application \
 		--cov=/app/il_manque_du_beurre/domaine \
-#		--cov=/app/il_manque_du_beurre/infrastructure \
+		--cov=/app/il_manque_du_beurre/infrastructure \
 		$(UNIT_TEST_PATH) \
 		$(INTEGRATION_TEST_PATH) \
 		$(END_TO_END_TEST_PATH)
@@ -93,6 +94,10 @@ test-all: lint up
 logs:
 	docker-compose logs -f
 
-.PHONY: bash
-bash: up
+.PHONY: bash-backend
+bash-backend: up
 	docker-compose exec backend bash
+
+.PHONY: bash-database
+bash-database: up
+	docker-compose exec database bash

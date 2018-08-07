@@ -2,7 +2,7 @@ FROM debian:9
 
 ## Install Cron & other dependencies
 RUN apt-get update && apt-get install --assume-yes python3 python3-pip python3-dev vim
-RUN apt-get install --assume-yes curl
+RUN apt-get install --assume-yes curl libpq-dev
 
 # We copy just the requirements.txt first to leverage Docker cache
 COPY ./requirements.txt /app/requirements.txt
