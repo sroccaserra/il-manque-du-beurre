@@ -44,6 +44,23 @@ database-init: database-start  ## Creates the databases (needed for integration 
 	docker-compose exec -T database \
 		bash scripts/create_databases.sh
 
+.PHONY: database-history
+database-history: database-start  ## Montre l'historique des versions de la base de donnée
+	docker-compose exec database alembic history
+
+.PHONY: database-current
+database-current: database-start  ## Montre la version actuelle de la base de données
+	docker-compose exec database alembic current
+
+.PHONY: database-revision
+database-revision: database-start  ## Crée une nouvelle version (script de migration) pour la base de donnée
+	if [ -z "$(REVISION_MESSAGE)" ]; then echo 'REVISION_MESSAGE not defined'; false; fi
+	docker-compose exec database alembic revision -m "$(REVISION_MESSAGE)"
+
+.PHONY: database-upgrade
+database-upgrade: database-start  ## Migre la base de donnée à la nouvelle version
+	docker-compose exec -T database alembic upgrade head
+
 
 ###############################################################################
 # Start and stop the whole platform
