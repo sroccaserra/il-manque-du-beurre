@@ -1,8 +1,26 @@
 
+## Sujets couverts
+
+Ce dépot contient ce qu'il faut pour démarrer :
+
+- Un backend & une API HTTP en Python 3
+- Le backend s'appuie sur une base de donnée PostgreSQL
+
+Ce que vous pouvez apprendre en lisant ce code :
+
+- Structurer le code du backend en [architecture hexagonale][archi-hexa]
+- Tester automatiquement un backend en Python 3 (tests unitaires et tests d'intégration)
+- Connecter le tout avec des containers Docker et un `Makefile`
+- Configurer la connection à la base de donnée par des variables d'environnement
+- Gérer les migrations de base de données par des scripts
+
+[archi-hexa]: https://blog.octo.com/architecture-hexagonale-trois-principes-et-un-exemple-dimplementation/
+
 ## Démarrer la plateforme
 
 ```bash
 make build  # la première fois, puis à chaque changement dans la construction de l'image docker
+make database-start database-upgrade  # la première fois, puis à chaque nouvelle version de la base de donnée
 make up
 ```
 
@@ -14,7 +32,7 @@ make help
 
 ## Specs de l'api
 
-Lancer le serveur, puis :
+Lancer la plateforme, puis :
 
 - <http://localhost:5000/static/swagger-ui-3.17.6/dist/index.html>
 
@@ -31,22 +49,51 @@ DATABASE_USER = postgres
 DATABASE_PASSWORD = example
 DATABASE_HOST = database
 DATABASE_PORT = 5432
-DATABASE_NAME = postgres
+DATABASE_NAME = ilmanquedubeurre
 ```
 
-## Sujets couverts
+## Migrations de base de données
 
-Ce dépot contient ce qu'il faut pour démarrer :
+Le projet utilise [Alembic][alembic] pour gérer les migrations de base de données.
 
-- Un backend & une API HTTP en Python 3
-- Le backend s'appuie sur une base de donnée PostgreSQL
+Pour appliquer toutes les migrations de base de données disponibles :
 
-Ce que vous pouvez apprendre en lisant ce code :
+```bash
+make database-upgrade
+```
 
-- Strucuturer le code du backend en [architecture hexagonale][archi-hexa]
-- Tester automatiquement un backend en Python 3 (tests unitaires et tests d'intégration)
-- Connecter le tout avec des containers et un `Makefile`
-- Configurer la connection à la base de donnée par des variables d'environnement
-- Gérer les migrations de base de données par des scripts
+Pour appliquer ces migrations sur la base de donnée de tests :
 
-[archi-hexa]: https://blog.octo.com/architecture-hexagonale-trois-principes-et-un-exemple-dimplementation/
+```bash
+ALEMBIC_NAMESPACE=test_database make database-upgrade
+```
+
+Note : la variable d'environnement `ALEMBIC_NAMESPACE` permet d'appliquer les tâches de migration à la base applicative (par défaut), ou à la base de tests (`ALEMBIC_NAMESPACE=test_database`).
+
+Les autres opérations de migration de base de données fonctionnent sur le même modèle.
+
+Voir le `Makefile`, ou `make help` pour les autres opérations.
+
+[alembic]: http://alembic.zzzcomputing.com
+
+### Créer une nouvelle version
+
+Pour créer un script de migration vers une nouvelle version :
+
+```bash
+REVISION_MESSAGE='Création de la table des produits manquants' make database-revision
+```
+
+Note : pas besoin de namespace ici, les scripts de version servent pour la base applicative et pour la base de test.
+
+Ensuite, éditer le nouveau fichier qui a été généré dans `database/alembic/versions`.
+
+### Supprimer les versions trop anciennes
+
+S'il y a trop de versions, il est possible de générer un script reflétant l'état actuel, voir :
+
+- http://alembic.zzzcomputing.com/en/latest/cookbook.html#building-an-up-to-date-database-from-scratch
+
+Ensuite, ce script devrait pouvoir être placé dans `/docker-entrypoint-initdb.d`, où il sera lancé à la création du container de la base de donnée (voir un exemple dans le `Dockerfile` de la base de donnée). Ne pas oublier la base de donnée de tests.
+
+Les versions trop anciennes peuvent ensuite être supprimées.

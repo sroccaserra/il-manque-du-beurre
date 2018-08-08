@@ -2,4 +2,5 @@
 
 set -eu -o pipefail
 
-createdb --username postgres postgres_test
+createdb --username postgres ilmanquedubeurre
+createdb --username postgres ilmanquedubeurre_test

@@ -13,6 +13,9 @@ INTEGRATION_TEST_OPTIONS ?=
 UNIT_TEST_OPTIONS ?=
 COVERAGE_REPORT ?= xml:coverage.xml
 
+ALEMBIC_NAMESPACE ?= alembic
+ALEMBIC = alembic -n $(ALEMBIC_NAMESPACE)
+
 
 # https://www.client9.com/self-documenting-makefiles/
 .PHONY: help
@@ -39,78 +42,61 @@ database-start:  ## Starts the database and waits for it (timeouts after 60 seco
 	docker-compose exec -T database \
 		bash scripts/wait_for_services.sh database 5432
 
-.PHONY: database-init
-database-init: database-start  ## Creates the databases (needed for integration tests & above)
-	docker-compose exec -T database \
-		bash scripts/create_databases.sh
+.PHONY: database-bash
+database-bash:  ## Starts a bash session on the running database
+	docker-compose exec database bash
 
-.PHONY: database-history
-database-history: database-start  ## Montre l'historique des versions de la base de donnée
-	docker-compose exec database alembic history
+.PHONY: database-psql
+database-psql:  ## Starts a psql session on the running database
+	docker-compose exec database psql --user postgres
+
+.PHONY: database-logs
+database-logs:  ## Follows the database logs
+	docker-compose logs -f database
+
+.PHONY: database-lint
+database-lint:  ## Lints the database code
+	docker-compose exec -T database \
+		flake8 --config=setup.cfg . *.py
 
 .PHONY: database-current
 database-current: database-start  ## Montre la version actuelle de la base de données
-	docker-compose exec database alembic current
+	docker-compose exec database $(ALEMBIC) current
+
+.PHONY: database-history
+database-history: database-start  ## Montre les versions disponibles de la base de donnée
+	docker-compose exec database $(ALEMBIC) history
 
 .PHONY: database-revision
 database-revision: database-start  ## Crée une nouvelle version (script de migration) pour la base de donnée
 	if [ -z "$(REVISION_MESSAGE)" ]; then echo 'REVISION_MESSAGE not defined'; false; fi
-	docker-compose exec database alembic revision -m "$(REVISION_MESSAGE)"
+	docker-compose exec database $(ALEMBIC) revision -m "$(REVISION_MESSAGE)"
 
 .PHONY: database-upgrade
 database-upgrade: database-start  ## Migre la base de donnée à la nouvelle version
-	docker-compose exec -T database alembic upgrade head
+	docker-compose exec -T database $(ALEMBIC) upgrade head
 
 
 ###############################################################################
-# Start and stop the whole platform
+# Backend operations
 
-.PHONY: up
-up: database-start  ## Starts the whole platform
-	docker-compose up -d backend
-
-.PHONY: down
-down:  ## Stops the whole platform
-	docker-compose down
-
-
-
-###############################################################################
-# General housekeeping
-
-.PHONY: clean
-clean: clean-docker clean-backend  ## Cleans docker & python stuff
-
-.PHONY: clean-docker
-clean-docker:  ## Removes dangling docker containers & images
-	docker container rm -f $(shell docker container ps -aq)
-	docker image rm $(shell docker images --quiet --filter "dangling=true")
-
-.PHONY: clean-backend
-clean-backend:  ## Removes Python build files
-	find backend | grep -E '(__pycache__|\.pyc|\.pyo$$)' | xargs rm -rf
-
-
-###############################################################################
-# Lint and test
-
-.PHONY: lint
-lint:  ## Lints the backend code
+.PHONY: backend-lint
+backend-lint:  ## Lints the backend code
 	docker-compose exec -T backend \
 		flake8 --config=setup.cfg . *.py
 
-.PHONY: test-unit
-test-unit:  ## Runs the backend unit tests
+.PHONY: backend-test-unit
+backend-test-unit:  ## Runs the backend unit tests
 	docker-compose exec -T backend \
 		pytest -vvv --color=yes $(UNIT_TEST_OPTIONS) test/unit
 
-.PHONY: test-integration
-test-integration: database-start  ## Runs the backend integration tests
+.PHONY: backend-test-integration
+backend-test-integration: database-start  ## Runs the backend integration tests
 	docker-compose exec -T backend \
 		pytest -vvv --color=yes $(INTEGRATION_TEST_OPTIONS) test/integration
 
-.PHONY: test-all
-test-all: lint database-start  ## Lints & runs all the backend tests with coverage
+.PHONY: backend-test-all
+backend-test-all: backend-lint database-start  ## Lints & runs all the backend tests with coverage
 	docker-compose exec -T backend \
 		pytest \
 		--color=yes \
@@ -123,26 +109,41 @@ test-all: lint database-start  ## Lints & runs all the backend tests with covera
 		test/unit \
 		test/integration
 
+.PHONY: backend-logs
+backend-logs:  ## Follows the backend logs
+	docker-compose logs -f backend
+
+.PHONY: backend-bash
+backend-bash:  ## Starts a bash session on the running backend
+	docker-compose exec backend bash
+
+.PHONY: clean-backend
+backend-clean:  ## Removes Python build files
+	find backend | grep -E '(__pycache__|\.pyc|\.pyo$$)' | xargs rm -rf
+
 
 ###############################################################################
-# More detailed run targets
+# Whole platform management
+
+.PHONY: up
+up: database-start  ## Starts the whole platform
+	docker-compose up -d backend
+
+.PHONY: down
+down:  ## Stops the whole platform
+	docker-compose down
 
 .PHONY: logs
 logs:  ## Follows the logs of the whole platform
 	docker-compose logs -f
 
-.PHONY: logs-backend
-logs-backend:  ## Follows the backend logs
-	docker-compose logs -f backend
+###############################################################################
+# General housekeeping
 
-.PHONY: logs-database
-logs-database:  ## Follows the database logs
-	docker-compose logs -f database
+.PHONY: clean-docker
+clean-docker:  ## Removes dangling docker containers & images
+	docker container rm -f $(shell docker container ps -aq)
+	docker image rm $(shell docker images --quiet --filter "dangling=true")
 
-.PHONY: bash-backend
-bash-backend:  ## Starts a bash session on the running backend
-	docker-compose exec backend bash
-
-.PHONY: bash-database
-bash-database:  ## Starts a bash session on the running database
-	docker-compose exec database bash
+.PHONY: clean
+clean: clean-docker backend-clean  ## Cleans docker & python stuff

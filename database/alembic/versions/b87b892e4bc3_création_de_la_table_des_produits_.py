@@ -1,7 +1,7 @@
 """Création de la table des produits manquants
 
 Revision ID: b87b892e4bc3
-Revises: 
+Revises:
 Create Date: 2018-08-07 22:07:41.089556
 
 """
