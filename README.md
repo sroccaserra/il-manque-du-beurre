@@ -6,12 +6,14 @@ Ensuite, toute personne du foyer peut consulter les produits manquants à achete
 
 ## Sujets couverts
 
-Ce dépot contient ce qu'il faut pour démarrer :
+Ce dépot permet de démarrer :
 
-- Un backend & une API HTTP en Python 3
-- Le backend s'appuie sur une base de donnée PostgreSQL
+- Un backend & une API HTTP (en Python 3)
+- Le backend s'appuie sur une base de donnée (PostgreSQL)
 
-Ce que vous pouvez apprendre en lisant ce code :
+### Ce que vous pouvez apprendre en lisant ce code
+
+Ce dépot contient une partie des besoins communs des projets webs qui démarrent auxquels j'ai participé, tout langage & frameworks confondus.
 
 - Structurer le code du backend en [architecture hexagonale][archi-hexa]
 - Tester automatiquement un backend en Python 3 (tests unitaires et tests d'intégration)
@@ -19,7 +21,7 @@ Ce que vous pouvez apprendre en lisant ce code :
 - Configurer la connection à la base de donnée par des variables d'environnement
 - Gérer les migrations de base de données par des scripts
 
-La plupart des éléments ci-dessus sont applicables dans d'autres langages que Python. Par exemple, le code est très découplé du framework HTTP (ici [Flask][flask]).
+Note : la plupart des éléments ci-dessus sont transposables dans d'autres langages que Python. Par exemple, le code est très découplé du framework HTTP (ici [Flask][flask]).
 
 [archi-hexa]: https://blog.octo.com/architecture-hexagonale-trois-principes-et-un-exemple-dimplementation/
 [flask]: http://flask.pocoo.org/
@@ -106,3 +108,13 @@ S'il y a trop de versions, il est possible de générer un script reflétant l'�
 Ensuite, ce script devrait pouvoir être placé dans `/docker-entrypoint-initdb.d`, où il sera lancé à la création du container de la base de donnée (voir un exemple dans le `Dockerfile` de la base de donnée). Ne pas oublier la base de donnée de tests.
 
 Les versions trop anciennes peuvent ensuite être supprimées.
+
+## TODO
+
+- Étendre l'API (pouvoir signaler qu'un produit n'est plus manquant)
+- Améliorer le bootstrap
+- Améliorer la déserialisation des produits connus
+- Utiliser l'ORM SQL Alchemy (côté infra backend uniquement) ?
+- Discussion boilerplate passe-plat vs appeler un repo dans le controller
+- Discussion & prospositions pour aller plus loin, authent (membres de la famille), gestion des rôles, backoffice (admin)
+- Un frontend ? En Cycle.js ?
