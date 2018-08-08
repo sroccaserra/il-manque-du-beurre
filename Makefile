@@ -73,8 +73,12 @@ database-revision: database-start  ## Crée une nouvelle version (script de migr
 	docker-compose exec database $(ALEMBIC) revision -m "$(REVISION_MESSAGE)"
 
 .PHONY: database-upgrade
-database-upgrade: database-start  ## Migre la base de donnée à la nouvelle version
+database-upgrade: database-start  ## Migre la base de donnée à la version la plus récente
 	docker-compose exec -T database $(ALEMBIC) upgrade head
+
+.PHONY: database-downgrade
+database-downgrade: database-start  ## Remet la base de donnée à la version précédente (n - 1)
+	docker-compose exec database $(ALEMBIC) downgrade -1
 
 
 ###############################################################################

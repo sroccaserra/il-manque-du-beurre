@@ -23,7 +23,7 @@ class DataStore:
         clear_table_connection = self.engine.connect()
         transaction = clear_table_connection.begin()
         for table in reversed(metadata.sorted_tables):
-            if table.name not in ['alembic_version']:
+            if table.name not in ['produits_connus', 'alembic_version']:
                 clear_table_connection.execute(table.delete())
         transaction.commit()
         clear_table_connection.close()

@@ -8,17 +8,21 @@ PRODUIT_MANQUANT = ProduitManquant('beurre')
 
 
 class TestProduitManquantSqlRepository(DatabaseTestBaseClass):
-    def test_liste_des_produits_manquants_vide(self):
-        produits_manquants_repository = ProduitManquantSqlRepository(self.data_store)
+    def setup_method(self):
+        super().setup_method()
+        self.repository = ProduitManquantSqlRepository(self.data_store)
 
-        produits_manquants = produits_manquants_repository.liste_des_produits_manquants()
+    def test_liste_des_produits_manquants_vide(self):
+        produits_manquants = self.repository.liste_des_produits_manquants()
 
         assert produits_manquants == []
 
     def test_liste_des_produits_manquants_apres_avoir_signale_du_beurre(self):
-        produits_manquants_repository = ProduitManquantSqlRepository(self.data_store)
-        produits_manquants_repository.ajoute(PRODUIT_MANQUANT)
+        self.repository.ajoute(PRODUIT_MANQUANT)
 
-        produits_manquants = produits_manquants_repository.liste_des_produits_manquants()
+        produits_manquants = self.repository.liste_des_produits_manquants()
 
         assert produits_manquants == [PRODUIT_MANQUANT]
+
+    def test_le_beurre_est_un_produit_connu(self):
+        assert self.repository.est_un_nom_de_produit_connu(PRODUIT_MANQUANT.nom)

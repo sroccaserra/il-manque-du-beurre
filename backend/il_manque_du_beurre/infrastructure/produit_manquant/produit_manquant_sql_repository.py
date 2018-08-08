@@ -20,7 +20,13 @@ class ProduitManquantSqlRepository(ProduitManquantRepository):
         self.data_store.execute(sql_query, {'nom': produit_manquant.nom})
 
     def est_un_nom_de_produit_connu(self, nom_de_produit):
-        raise NotImplementedError()
+        sql_query = '''
+        SELECT nom FROM produits_connus
+        '''
+        result_set = self.data_store.execute(sql_query)
+        rows = result_set.fetchall()
+        noms_de_produits_connus = [row.nom for row in rows]
+        return nom_de_produit in noms_de_produits_connus
 
     def liste_des_produits_manquants(self):
         sql_query = '''

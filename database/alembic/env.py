@@ -9,7 +9,8 @@ from dotenv import load_dotenv
 # access to the values within the .ini file in use.
 config = context.config
 
-#
+# Ajouté pour ce projet
+
 load_dotenv()
 
 default_database_name = config.get_main_option('default_database_name')
