@@ -3,10 +3,11 @@ services:
   backend:
     image: il_manque_du_beurre_backend
     command: flask run --host='0.0.0.0'
-    ports:
-      - "5000:5000"
     environment:
       DATABASE_PASSWORD: example
+    ports:
+    - "5000:5000"
+    restart: always
     volumes:
       - ./backend:/app
     working_dir: /app
@@ -14,7 +15,10 @@ services:
   database:
     image: il_manque_du_beurre_database
     environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
       POSTGRES_PASSWORD: example
+    restart: always
     volumes:
       - ./database:/app
+      - ./database/pgdata:/var/lib/postgresql/data/pgdata
     working_dir: /app

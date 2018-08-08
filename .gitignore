@@ -7,3 +7,5 @@ __pycache__/
 backend/.coverage
 backend/coverage.xml
 backend/junit.xml
+
+database/pgdata
