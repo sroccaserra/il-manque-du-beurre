@@ -1,3 +1,8 @@
+L'application "Il manque du beurre" est une application prétexte pour donner un exemple de comment structurer un code backend qui s'appuie sur une base de donnée.
+
+C'est une API destinée à signaler qu'il manque un produit à la maison. Par exemple, s'il manque du beurre à la maison, je peux faire un `POST` sur le produit manquant `'beurre'` et l'API l'enregistre.
+
+Ensuite, toute personne du foyer peut consulter les produits manquants à acheter en faisant un `GET` sur l'API (voir les specs plus bas).
 
 ## Sujets couverts
 
@@ -14,7 +19,11 @@ Ce que vous pouvez apprendre en lisant ce code :
 - Configurer la connection à la base de donnée par des variables d'environnement
 - Gérer les migrations de base de données par des scripts
 
+La plupart des éléments ci-dessus sont applicables dans d'autres langages que Python. Par exemple, le code est très découplé du framework HTTP (ici [Flask][flask]).
+
 [archi-hexa]: https://blog.octo.com/architecture-hexagonale-trois-principes-et-un-exemple-dimplementation/
+[flask]: http://flask.pocoo.org/
+
 
 ## Démarrer la plateforme
 
