@@ -1,11 +1,9 @@
-from test.integration.database.data_store_for_tests import data_store_for_tests
+from test.integration.database.database_test_base_class import DatabaseTestBaseClass
 
 
-class TestDataStore:
+class TestDataStore(DatabaseTestBaseClass):
     def test_data_store(self):
-        data_store = data_store_for_tests()
-
-        result_set = data_store.execute('select 1')
+        result_set = self.data_store.execute('select 1')
         rows = result_set.fetchall()
 
         assert (1,) == rows[0]
