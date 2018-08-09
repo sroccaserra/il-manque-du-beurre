@@ -12,7 +12,7 @@ class ProduitManquantSqlRepository(ProduitManquantRepository):
         super().__init__()
         self.data_store = data_store
 
-    def ajoute(self, produit_manquant):
+    def ajoute(self, produit_manquant: ProduitManquant) -> None:
         sql_query = '''
             INSERT INTO produits_manquants(nom)
             VALUES (:nom)
@@ -20,7 +20,7 @@ class ProduitManquantSqlRepository(ProduitManquantRepository):
         '''
         self.data_store.execute(sql_query, {'nom': produit_manquant.nom})
 
-    def est_un_nom_de_produit_connu(self, nom_de_produit):
+    def est_un_nom_de_produit_connu(self, nom_de_produit: str) -> bool:
         sql_query = '''
             SELECT nom FROM produits_connus
         '''
@@ -29,7 +29,7 @@ class ProduitManquantSqlRepository(ProduitManquantRepository):
         noms_de_produits_connus = [row.nom for row in rows]
         return nom_de_produit in noms_de_produits_connus
 
-    def liste_des_produits_manquants(self):
+    def liste_des_produits_manquants(self) -> [ProduitManquant]:
         sql_query = '''
             SELECT nom FROM produits_manquants
         '''

@@ -177,6 +177,7 @@ Les versions trop anciennes peuvent ensuite être supprimées.
 - Étendre l'API (pouvoir signaler qu'un produit n'est plus manquant)
 - Améliorer le bootstrap
 - Améliorer la déserialisation des produits connus
+- Vérifier les annotations de type ?
 - Test end to end ? Acceptance ?
 - Utiliser l'ORM SQL Alchemy (côté infra backend uniquement) ?
 - Discussion boilerplate passe-plat vs appeler un repo dans le controller

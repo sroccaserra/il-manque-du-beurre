@@ -1,15 +1,18 @@
 import json
 
 from il_manque_du_beurre.application.produits_api import ProduitsAPI
-from il_manque_du_beurre.domaine.produit_manquant_repository import ProduitManquantRepository
 from il_manque_du_beurre.domaine.produit_manquant_service import ProduitManquantService
+from il_manque_du_beurre.infrastructure.produit_manquant.produit_manquant_sql_repository import \
+    ProduitManquantSqlRepository
+from test.integration.database.database_test_base_class import DatabaseTestBaseClass
 
 NOM_DE_PRODUIT_MANQUANT = 'beurre'
 
 
-class TestIntegrationProduitAPI:
+class TestIntegrationProduitAPI(DatabaseTestBaseClass):
     def setup_method(self):
-        produit_manquant_repository = ProduitManquantRepository()
+        super().setup_method()
+        produit_manquant_repository = ProduitManquantSqlRepository(self.data_store)
         produit_manquant_service = ProduitManquantService(produit_manquant_repository)
         self.produits_api = ProduitsAPI(produit_manquant_service)
 

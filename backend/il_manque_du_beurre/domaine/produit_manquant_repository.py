@@ -1,15 +1,12 @@
-NOMS_DE_PRODUITS_CONNUS = ['beurre']
+from il_manque_du_beurre.domaine.produit_manquant import ProduitManquant
 
 
 class ProduitManquantRepository:
-    def __init__(self):
-        self.produits_manquants = []
+    def ajoute(self, produit_manquant: ProduitManquant) -> None:
+        raise NotImplementedError()
 
-    def ajoute(self, produit_manquant):
-        self.produits_manquants.append(produit_manquant)
+    def est_un_nom_de_produit_connu(self, nom_de_produit: str) -> bool:
+        raise NotImplementedError()
 
-    def est_un_nom_de_produit_connu(self, nom_de_produit):
-        return nom_de_produit in NOMS_DE_PRODUITS_CONNUS
-
-    def liste_des_produits_manquants(self):
-        return self.produits_manquants
+    def liste_des_produits_manquants(self) -> [ProduitManquant]:
+        raise NotImplementedError()
