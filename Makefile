@@ -1,22 +1,22 @@
-###############################################################################
-#
-#  More Makefile hints here:
-#  - <http://clarkgrubb.com/makefile-style-guide>
-#
-
-MAKEFLAGS += --warn-undefined-variables
-SHELL := bash
-.SHELLFLAGS := -eu -o pipefail -c
-
+##
+# Use these environment variables to pass options to pytest.
+# Example : `INTEGRATION_TEST_OPTIONS='-m only' make backend-test-integration`
 END_TO_END_TEST_OPTIONS ?=
 INTEGRATION_TEST_OPTIONS ?=
 UNIT_TEST_OPTIONS ?=
 COVERAGE_REPORT ?= xml:coverage.xml
 
+##
+# Use this environment variable to migrate the test database.
+# Example : `ALEMBIC_NAMESPACE='test_database' make database-upgrade`
 ALEMBIC_NAMESPACE ?= alembic
 ALEMBIC = alembic -n $(ALEMBIC_NAMESPACE)
 
+MAKEFLAGS += --warn-undefined-variables
+SHELL := bash
+.SHELLFLAGS := -eu -o pipefail -c
 
+##
 # https://www.client9.com/self-documenting-makefiles/
 .PHONY: help
 help:  ## Prints this help
@@ -24,14 +24,6 @@ help:  ## Prints this help
 	printf "\033[36m%-30s\033[0m %s\n", $$1, $$NF \
 	}' $(MAKEFILE_LIST)
 
-
-###############################################################################
-# Prerequisites
-
-.PHONY: build
-build:  ## builds the platform's docker images (prerequisite, do it once & when changing images)
-	docker build --tag=il_manque_du_beurre_backend backend/
-	docker build --tag=il_manque_du_beurre_database database/
 
 ###############################################################################
 # Database
@@ -48,7 +40,11 @@ database-bash:  ## Starts a bash session on the running database
 
 .PHONY: database-psql
 database-psql:  ## Starts a psql session on the running database
-	docker-compose exec database psql --user postgres
+	docker-compose exec database psql --user=postgres --dbname=ilmanquedubeurre
+
+.PHONY: database-psql-test
+database-psql-test:  ## Starts a psql session on the running test database
+	docker-compose exec database psql --user=postgres --dbname=ilmanquedubeurre_test
 
 .PHONY: database-logs
 database-logs:  ## Follows the database logs
@@ -129,17 +125,18 @@ backend-clean:  ## Removes Python build files
 ###############################################################################
 # Whole platform management
 
-.PHONY: up
-up: database-start  ## Starts the whole platform
+.PHONY: start
+start: database-start  ## Starts the whole platform
 	docker-compose up -d backend
 
-.PHONY: down
-down:  ## Stops the whole platform
+.PHONY: stop
+stop:  ## Stops the whole platform
 	docker-compose down
 
 .PHONY: logs
 logs:  ## Follows the logs of the whole platform
 	docker-compose logs -f
+
 
 ###############################################################################
 # General housekeeping

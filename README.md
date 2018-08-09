@@ -44,10 +44,11 @@ Note : la plupart des éléments ci-dessus sont transposables dans d'autres lang
 ## Démarrer la plateforme
 
 ```bash
-make build  # la première fois, puis à chaque changement dans la construction de l'image docker
 make database-upgrade  # la première fois, puis à chaque nouvelle version de la base de donnée
-make up
+make start
 ```
+
+Note : la première fois, ces commandes construisent les images docker du backend et de la base de donnée.
 
 Pour plus d'infos :
 
@@ -123,6 +124,8 @@ DATABASE_NAME = ilmanquedubeurre
 
 ## Migrations de base de données
 
+Note : l'application tourne sur la base de donnée `ilmanquedubeurre`. Les tests tournent sur la base de donnée `ilmanquedubeurre_test`.
+
 Le projet utilise [Alembic][alembic] pour gérer les migrations de base de données.
 
 Pour appliquer toutes les migrations de base de données disponibles :
@@ -141,7 +144,7 @@ Note : la variable d'environnement `ALEMBIC_NAMESPACE` permet d'appliquer les t�
 
 Les autres opérations de migration de base de données fonctionnent sur le même modèle.
 
-Voir le `Makefile`, ou `make help` pour les autres opérations.
+Voir le `Makefile`, ou `make help` pour les autres opérations, comme se connecter aux bases en ligne de commande par exemple.
 
 [alembic]: http://alembic.zzzcomputing.com
 
