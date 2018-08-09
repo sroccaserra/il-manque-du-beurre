@@ -14,14 +14,15 @@ class ProduitManquantSqlRepository(ProduitManquantRepository):
 
     def ajoute(self, produit_manquant):
         sql_query = '''
-        INSERT INTO produits_manquants(nom)
-        VALUES (:nom)
+            INSERT INTO produits_manquants(nom)
+            VALUES (:nom)
+            ON CONFLICT (nom) DO NOTHING;
         '''
         self.data_store.execute(sql_query, {'nom': produit_manquant.nom})
 
     def est_un_nom_de_produit_connu(self, nom_de_produit):
         sql_query = '''
-        SELECT nom FROM produits_connus
+            SELECT nom FROM produits_connus
         '''
         result_set = self.data_store.execute(sql_query)
         rows = result_set.fetchall()
@@ -30,7 +31,7 @@ class ProduitManquantSqlRepository(ProduitManquantRepository):
 
     def liste_des_produits_manquants(self):
         sql_query = '''
-        SELECT nom FROM produits_manquants
+            SELECT nom FROM produits_manquants
         '''
         result_set = self.data_store.execute(sql_query)
         rows = result_set.fetchall()

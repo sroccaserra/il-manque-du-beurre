@@ -53,3 +53,20 @@ paths:
                     properties:
                       description:
                       type: string
+    delete:
+      summary: Signale qu'un produit n'est plus manquant
+      responses:
+        '200':
+          description: Ok, le produit a été signalé comme plus manquant
+        '400':
+          description: "Erreur : le produit demandé n'est pas connu"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  erreur:
+                    type: object
+                    properties:
+                      description:
+                      type: string

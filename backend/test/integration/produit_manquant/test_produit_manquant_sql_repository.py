@@ -24,5 +24,13 @@ class TestProduitManquantSqlRepository(DatabaseTestBaseClass):
 
         assert produits_manquants == [PRODUIT_MANQUANT]
 
+    def test_signaler_un_produit_manquant_deux_fois_est_possible(self):
+        self.repository.ajoute(PRODUIT_MANQUANT)
+        self.repository.ajoute(PRODUIT_MANQUANT)
+
+        produits_manquants = self.repository.liste_des_produits_manquants()
+
+        assert produits_manquants == [PRODUIT_MANQUANT]
+
     def test_le_beurre_est_un_produit_connu(self):
         assert self.repository.est_un_nom_de_produit_connu(PRODUIT_MANQUANT.nom)
