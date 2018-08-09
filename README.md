@@ -37,7 +37,7 @@ Ce dépot contient une partie des besoins communs des projets webs qui démarren
 - Configurer la connection à la base de donnée par des variables d'environnement
 - Gérer les migrations de base de données par des scripts
 
-Note : la plupart des éléments ci-dessus sont transposables dans d'autres langages que Python. Par exemple, le code est très découplé du framework HTTP (ici [Flask][flask]).
+Note : la plupart des éléments ci-dessus sont transposables dans d'autres langages que Python et à d'autres frameworks. Par exemple, le code est très découplé de [Flask][flask].
 
 Note : il y a d'autres façons d'organiser vos projets, celle-ci n'est qu'un exemple dont vous pouvez vous inspirer. Sur des projets plus complexes, ou suffisamment différents de celui-ci, vous aurez probablement d'autres besoins et d'autres solutions.
  
@@ -174,12 +174,14 @@ Les versions trop anciennes peuvent ensuite être supprimées.
 
 ## TODO
 
-- Étendre l'API (pouvoir signaler qu'un produit n'est plus manquant)
+- Étendre l'API (pouvoir ajouter / retirer des produits connus)
+- Trouver un meilleur vocabulaire (signaler un produit non manquant = ? produit "non manquant" = ?)
 - Améliorer le bootstrap
 - Améliorer la déserialisation des produits connus
 - Vérifier les annotations de type ?
 - Test end to end ? Acceptance ?
+- Ajouter des transactions
 - Utiliser l'ORM SQL Alchemy (côté infra backend uniquement) ?
-- Discussion boilerplate passe-plat vs appeler un repo dans le controller
+- Discussion "boilerplate passe-plat" vs "appeler un repo dans le controller"
 - Discussion & prospositions pour aller plus loin, authent (membres de la famille), gestion des rôles, backoffice (admin)
 - Un frontend ? En Cycle.js ?

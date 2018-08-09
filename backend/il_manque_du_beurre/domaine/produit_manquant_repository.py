@@ -5,6 +5,9 @@ class ProduitManquantRepository:
     def ajoute(self, produit_manquant: ProduitManquant) -> None:
         raise NotImplementedError()
 
+    def retire(self, produit_manquant: ProduitManquant) -> None:
+        raise NotImplementedError()
+
     def est_un_nom_de_produit_connu(self, nom_de_produit: str) -> bool:
         raise NotImplementedError()
 

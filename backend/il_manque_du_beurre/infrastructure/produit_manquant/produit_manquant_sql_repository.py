@@ -20,6 +20,13 @@ class ProduitManquantSqlRepository(ProduitManquantRepository):
         '''
         self.data_store.execute(sql_query, {'nom': produit_manquant.nom})
 
+    def retire(self, produit_manquant: ProduitManquant) -> None:
+        sql_query = '''
+            DELETE FROM produits_manquants
+            WHERE nom = :nom
+        '''
+        self.data_store.execute(sql_query, {'nom': produit_manquant.nom})
+
     def est_un_nom_de_produit_connu(self, nom_de_produit: str) -> bool:
         sql_query = '''
             SELECT nom FROM produits_connus

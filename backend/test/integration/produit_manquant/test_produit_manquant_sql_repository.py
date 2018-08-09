@@ -34,3 +34,18 @@ class TestProduitManquantSqlRepository(DatabaseTestBaseClass):
 
     def test_le_beurre_est_un_produit_connu(self):
         assert self.repository.est_un_nom_de_produit_connu(PRODUIT_MANQUANT.nom)
+
+    def test_liste_des_produits_manquants_apres_avoir_ajoute_et_retire_du_beurre(self):
+        self.repository.ajoute(PRODUIT_MANQUANT)
+        self.repository.retire(PRODUIT_MANQUANT)
+
+        produits_manquants = self.repository.liste_des_produits_manquants()
+
+        assert produits_manquants == []
+
+    def test_signaler_un_produit_non_manquant_non_liste_est_possible(self):
+        self.repository.retire(PRODUIT_MANQUANT)
+
+        produits_manquants = self.repository.liste_des_produits_manquants()
+
+        assert produits_manquants == []

@@ -6,7 +6,7 @@ from il_manque_du_beurre.infrastructure.produit_manquant.produit_manquant_sql_re
     ProduitManquantSqlRepository
 from test.integration.database.database_test_base_class import DatabaseTestBaseClass
 
-NOM_DE_PRODUIT_MANQUANT = 'beurre'
+NOM_DE_PRODUIT_CONNU = 'beurre'
 
 
 class TestIntegrationProduitAPI(DatabaseTestBaseClass):
@@ -18,18 +18,26 @@ class TestIntegrationProduitAPI(DatabaseTestBaseClass):
 
     def test_signaler_un_produit_manquant_renvoie_200(self):
 
-        response = self.produits_api.signaler_produit_manquant(NOM_DE_PRODUIT_MANQUANT)
+        response = self.produits_api.signaler_produit_manquant(NOM_DE_PRODUIT_CONNU)
 
         assert response.data == b''
         assert response.status == '200 OK'
         assert response.mimetype == 'application/json'
 
     def test_lister_les_produits_manquants(self):
-        self.produits_api.signaler_produit_manquant(NOM_DE_PRODUIT_MANQUANT)
+        self.produits_api.signaler_produit_manquant(NOM_DE_PRODUIT_CONNU)
 
         response = self.produits_api.liste_des_produits_manquants()
 
-        assert response.data == json_contenant([{'nom': NOM_DE_PRODUIT_MANQUANT}])
+        assert response.data == json_contenant([{'nom': NOM_DE_PRODUIT_CONNU}])
+        assert response.status == '200 OK'
+        assert response.mimetype == 'application/json'
+
+    def test_signaler_qu_un_produit_n_est_plus_manquant(self):
+
+        response = self.produits_api.signaler_produit_non_manquant(NOM_DE_PRODUIT_CONNU)
+
+        assert response.data == b''
         assert response.status == '200 OK'
         assert response.mimetype == 'application/json'
 
