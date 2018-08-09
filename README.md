@@ -109,6 +109,24 @@ Ensuite, ce script devrait pouvoir être placé dans `/docker-entrypoint-initdb.
 
 Les versions trop anciennes peuvent ensuite être supprimées.
 
+## Sélectionner le(s) test(s) à lancer
+
+Pendant le développement, il est utile de ne lancer qu'un seul test ou une seule suite de tests pour se concentrer sur un comportement (surtout pour les tests non unitaires, plus lents).
+
+Pour faire ça, on peut temporairement annoter le test à lancer avec `@pytest.mark.only` par exemple, puis ajouter les arguments `-m only` à la commande qui exécute les tests.
+
+Les targets de test du `Makefile` permettent de faire ça avec des variables d'environnement.
+
+Par exemple :
+
+```bash
+INTEGRATION_TEST_OPTIONS='-m only' make backend-test-integration
+```
+
+En général, j'ajoute cette commande comme _Run Configuration_ supplémentaire dans IntelliJ par exemple, en plus des configurations qui lancent tous les tests.
+
+Attention : ne pas commiter les `@pytest.mark.only` qui vous ont servi au développement.
+
 ## TODO
 
 - Étendre l'API (pouvoir signaler qu'un produit n'est plus manquant)
