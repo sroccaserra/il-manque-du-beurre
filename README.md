@@ -178,6 +178,11 @@ Ensuite, ce script devrait pouvoir être placé dans `/docker-entrypoint-initdb.
 
 Les versions trop anciennes peuvent ensuite être supprimées.
 
+
+## Frontend
+
+Note : le frontend est en travaux, il n'est pas opérationnel aujourd'hui. Si vous souhaitez contribuer, contactez-moi :)
+
 ## TODO
 
 - Étendre l'API (pouvoir ajouter / retirer des produits connus)
