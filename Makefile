@@ -117,10 +117,22 @@ backend-logs:  ## Follows the backend logs
 backend-bash:  ## Starts a bash session on the running backend
 	docker-compose exec backend bash
 
-.PHONY: clean-backend
+.PHONY: backend-clean
 backend-clean:  ## Removes Python build files
 	find backend | grep -E '(__pycache__|\.pyc|\.pyo$$)' | xargs rm -rf
 
+
+###############################################################################
+# Frontend
+
+.PHONY: frontend
+frontend:
+	cd frontend && npx elm make src/Main.elm --output=dist/index.html
+
+
+.PHONY: frontend-start
+frontend-start:
+	cd frontend && npx elm reactor
 
 ###############################################################################
 # Whole platform management

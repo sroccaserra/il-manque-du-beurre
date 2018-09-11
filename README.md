@@ -52,6 +52,12 @@ make database-upgrade  # la première fois, puis à chaque nouvelle version de l
 make start
 ```
 
+L'api est disponible en local sur le port 5000, par exemple :
+
+```
+curl http://localhost:5000/api/produits_manquants
+```
+
 Note : la première fois, ces commandes construisent les images docker du backend et de la base de donnée. Ça prend quelques minutes. Ensuite, `make start` est suffisant et la plateforme démarre en quelques secondes.
 
 Pour plus d'infos :
