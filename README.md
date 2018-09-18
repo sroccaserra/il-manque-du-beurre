@@ -77,6 +77,7 @@ make backend-test-unit
 Lancer les tests d'intégration :
 
 ```bash
+ALEMBIC_NAMESPACE=test_database make database-upgrade  # La première fois, et à chaque ajout de migration de base à tester
 make backend-test-integration
 ```
 
@@ -114,7 +115,7 @@ Lancer la plateforme, puis :
 
 - <http://localhost:5000/static/swagger-ui-3.17.6/dist/index.html>
 
-Note : c'est un Swagger minimaliste d'essai.
+Note : ce n'est pas un Swagger exemplaire, c'est un Swagger minimaliste d'essai.
 
 ## Configuration
 

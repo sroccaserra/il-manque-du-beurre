@@ -91,7 +91,7 @@ backend-test-unit:  ## Runs the backend unit tests
 		pytest -vvv --color=yes $(UNIT_TEST_OPTIONS) test/unit
 
 .PHONY: backend-test-integration
-backend-test-integration: database-start  ## Runs the backend integration tests
+backend-test-integration: start  ## Runs the backend integration tests
 	docker-compose exec -T backend \
 		pytest -vvv --color=yes $(INTEGRATION_TEST_OPTIONS) test/integration
 
