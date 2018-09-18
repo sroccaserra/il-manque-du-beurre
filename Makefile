@@ -34,12 +34,19 @@ database-start:  ## Starts the database and waits for it (timeouts after 60 seco
 	docker-compose exec -T database \
 		bash scripts/wait_for_services.sh database 5432
 
+.PHONY: database-init
+database-init: database-start  ## Inits & migrates both app database & test database to head version
+	docker-compose exec -T database \
+		alembic -n alembic upgrade head
+	docker-compose exec -T database \
+		alembic -n test_database upgrade head
+
 .PHONY: database-bash
-database-bash:  ## Starts a bash session on the running database
+database-bash:  ## Starts a bash session on the running database container
 	docker-compose exec database bash
 
 .PHONY: database-psql
-database-psql:  ## Starts a psql session on the running database
+database-psql:  ## Starts a psql session on the running app database
 	docker-compose exec database psql --user=postgres --dbname=ilmanquedubeurre
 
 .PHONY: database-psql-test
@@ -114,7 +121,7 @@ backend-logs:  ## Follows the backend logs
 	docker-compose logs -f backend
 
 .PHONY: backend-bash
-backend-bash:  ## Starts a bash session on the running backend
+backend-bash:  ## Starts a bash session on the running backend container
 	docker-compose exec backend bash
 
 .PHONY: backend-clean

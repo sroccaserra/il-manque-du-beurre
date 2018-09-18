@@ -48,7 +48,7 @@ Note : il y a d'autres façons d'organiser vos projets, celle-ci n'est qu'un exe
 ## Démarrer la plateforme
 
 ```bash
-make database-upgrade  # la première fois, puis à chaque nouvelle version de la base de donnée
+make database-init  # la première fois seulement, voir plus bas pour la gestion de la base
 make start
 ```
 
@@ -77,7 +77,7 @@ make backend-test-unit
 Lancer les tests d'intégration :
 
 ```bash
-ALEMBIC_NAMESPACE=test_database make database-upgrade  # La première fois, et à chaque ajout de migration de base à tester
+make database-init  # La première fois seulement, voir plus bas pour la gestion de la base
 make backend-test-integration
 ```
 
