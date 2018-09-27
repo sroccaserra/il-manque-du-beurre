@@ -40,7 +40,11 @@ Ce dépot contient une partie des besoins communs des projets webs qui démarren
 Note : la plupart des éléments ci-dessus sont transposables dans d'autres langages que Python et à d'autres frameworks. Par exemple, le code est très découplé de [Flask][flask].
 
 Note : il y a d'autres façons d'organiser vos projets, celle-ci n'est qu'un exemple dont vous pouvez vous inspirer. Sur des projets plus complexes, ou suffisamment différents de celui-ci, vous aurez probablement d'autres besoins et d'autres solutions.
- 
+
+Note importante : ce n'est pas un exemple de comment gérer docker dans un environnement de production, mais un exemple de comment utiliser l’os et le langage cible sur un poste de développeur.
+
+Note : ça peut aussi documenter l’installation de certaines dépendances ésotériques de vos projets sur l’os cible si nécessaire. Par exemple, une lib SAML qui dépend d'un binding python à une lib de chiffrement xml qui dépend d'une lib openssl, comment on fait sur Amazon Linux ?
+
 [archi-hexa]: https://blog.octo.com/architecture-hexagonale-trois-principes-et-un-exemple-dimplementation/
 [flask]: http://flask.pocoo.org/
 
