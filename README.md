@@ -39,7 +39,7 @@ Ce dépot contient une partie des besoins communs des projets webs qui démarren
 
 Note : la plupart des éléments ci-dessus sont transposables dans d'autres langages que Python et à d'autres frameworks. Par exemple, le code est très découplé de [Flask][flask].
 
-Note : il y a d'autres façons d'organiser vos projets, celle-ci n'est qu'un exemple dont vous pouvez vous inspirer. Sur des projets plus complexes, ou suffisamment différents de celui-ci, vous aurez probablement d'autres besoins et d'autres solutions.
+Note : l'exemple est en architecture en couches traditionnelle avec inversion de dépendance vers la couche infra (aka [architecture hexagonale][archi-hexa]). Il y a d'autres façons d'organiser vos projets. Vous pouvez organiser le code du backend de plein d'autres façons, en smart ui pour un projet super simple et court par exemple (attention aux projets "simples et courts", ils ont tendance à se rallonger et se complexifier), ou en CQRS pour un projet plus ambitieux par exemple si vous savez le faire.
 
 Note importante : ce n'est pas un exemple de comment gérer docker dans un environnement de production, mais un exemple de comment utiliser l’os et le langage cible sur un poste de développeur.
 
