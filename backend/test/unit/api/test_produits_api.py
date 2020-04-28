@@ -1,7 +1,7 @@
 import json
 from unittest.mock import Mock
 
-from il_manque_du_beurre.application.produits_api import ProduitsAPI
+from il_manque_du_beurre.presentation.produits_api import ProduitsAPI
 from il_manque_du_beurre.domaine.produit_inconnu_exception import ProduitInconnuException
 from il_manque_du_beurre.domaine.produit_manquant import ProduitManquant
 from il_manque_du_beurre.domaine.produit_manquant_service import ProduitManquantService

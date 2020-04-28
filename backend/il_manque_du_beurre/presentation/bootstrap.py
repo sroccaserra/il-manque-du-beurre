@@ -1,4 +1,4 @@
-from il_manque_du_beurre.application.produits_api import ProduitsAPI
+from il_manque_du_beurre.presentation.produits_api import ProduitsAPI
 from il_manque_du_beurre.domaine.produit_manquant_service import ProduitManquantService
 from il_manque_du_beurre.infrastructure.database.data_store import DataStore
 from il_manque_du_beurre.infrastructure.produit_manquant.produit_manquant_sql_repository import \
