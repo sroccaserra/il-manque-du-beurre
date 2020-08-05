@@ -1,4 +1,4 @@
-from il_manque_du_beurre.settings import DATABASE_NAME
+from il_manque_du_beurre.infrastructure.settings import DATABASE_NAME
 
 
 class TestConfiguration:

@@ -1,6 +1,6 @@
 from il_manque_du_beurre.infrastructure.database.data_store import DataStore
-from il_manque_du_beurre.settings import DATABASE_USER, DATABASE_PASSWORD, DATABASE_HOST, \
-    DATABASE_PORT, DATABASE_TEST_NAME
+from il_manque_du_beurre.infrastructure.settings import \
+        DATABASE_USER, DATABASE_PASSWORD, DATABASE_HOST, DATABASE_PORT, DATABASE_TEST_NAME
 
 
 class DatabaseTestBaseClass:
