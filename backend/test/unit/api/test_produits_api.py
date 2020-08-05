@@ -1,10 +1,10 @@
 import json
 from unittest.mock import Mock
 
-from il_manque_du_beurre.presentation.produits_api import ProduitsAPI
 from il_manque_du_beurre.domaine.produit_inconnu_exception import ProduitInconnuException
 from il_manque_du_beurre.domaine.produit_manquant import ProduitManquant
 from il_manque_du_beurre.domaine.produit_manquant_service import ProduitManquantService
+from il_manque_du_beurre.infrastructure.api.produits_api import ProduitsAPI
 
 NOM_DE_PRODUIT_CONNU = 'beurre'
 NOM_DE_PRODUIT_INCONNU = 'poivron bleu'

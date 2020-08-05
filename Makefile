@@ -110,7 +110,6 @@ backend-test-all: backend-lint database-start  ## Lints & runs all the backend t
 		--junitxml=junit.xml \
 		--cov-report $(COVERAGE_REPORT) \
 		--cov-report term-missing:skip-covered \
-		--cov=il_manque_du_beurre/presentation \
 		--cov=il_manque_du_beurre/domaine \
 		--cov=il_manque_du_beurre/infrastructure \
 		test/unit \

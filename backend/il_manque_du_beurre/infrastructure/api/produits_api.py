@@ -2,9 +2,9 @@ from http import HTTPStatus
 
 from flask import Response
 
-from il_manque_du_beurre.presentation.json.erreur_json import serialise_erreur
-from il_manque_du_beurre.presentation.json.produits_json import serialise_liste
 from il_manque_du_beurre.domaine.produit_inconnu_exception import ProduitInconnuException
+from il_manque_du_beurre.infrastructure.api.json.erreur_json import serialise_erreur
+from il_manque_du_beurre.infrastructure.api.json.produits_json import serialise_liste
 
 
 def bad_request_json_response(message):

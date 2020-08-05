@@ -1,6 +1,6 @@
 from flask import Flask
 
-from il_manque_du_beurre.presentation.api import api
+from il_manque_du_beurre.infrastructure.api.api import api
 
 
 def create_app():

@@ -1,6 +1,6 @@
 from flask import Blueprint
 
-from il_manque_du_beurre.presentation.bootstrap import produits_api
+from il_manque_du_beurre.infrastructure.api.bootstrap import produits_api
 
 api = Blueprint('API', __name__, url_prefix='/api')
 
